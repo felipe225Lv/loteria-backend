@@ -1,6 +1,9 @@
 package com.konex.loteria.Billete.DTOs;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
 /**
@@ -8,6 +11,8 @@ import java.math.BigDecimal;
  * Incluye datos básicos del billete, junto con información del sorteo y del cliente asociado.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BilleteResponseDTO {
 
     /** Identificador único del billete. */

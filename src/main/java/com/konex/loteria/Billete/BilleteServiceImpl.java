@@ -10,7 +10,7 @@ import com.konex.loteria.Sorteo.Sorteo;
 import com.konex.loteria.Sorteo.SorteoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+    import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,7 +74,6 @@ public class BilleteServiceImpl implements BilleteService {
             throw new InvalidBilleteDataException("Los datos del billete no son correctos.");
         }
 
-        // Estado inicial
         if (billete.getEstado() == null) {
             billete.setEstado(EstadoBillete.DISPONIBLE);
         }
@@ -97,8 +96,12 @@ public class BilleteServiceImpl implements BilleteService {
         existente.setPrecio(dto.getPrecio());
         existente.setEstado(EstadoBillete.valueOf(dto.getEstado()));
 
-        Billete actualizado = billeteRepository.save(existente);
-        return billeteMapper.toResponseDTO(actualizado);
+        if (!BilleteValidator.isValid(existente)) {
+            throw new InvalidBilleteDataException("Los datos del billete no son correctos.");
+        }
+
+        Billete updated = billeteRepository.save(existente);
+        return billeteMapper.toResponseDTO(updated);
     }
 
     /**
