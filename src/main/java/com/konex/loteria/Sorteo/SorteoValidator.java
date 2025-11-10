@@ -29,7 +29,7 @@ public class SorteoValidator {
             throw new InvalidSorteoDataException("La fecha del sorteo es inválida o está en el pasado.");
         }
 
-        return true;
+        return false;
     }
 
     /**

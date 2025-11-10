@@ -61,14 +61,12 @@ public class BilleteServiceImpl implements BilleteService {
     @Override
     @Transactional
     public BilleteResponseDTO save(BilleteRequestDTO dto) {
-        Cliente cliente = clienteRepository.findById(dto.getClienteId())
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con el id: " + dto.getClienteId()));
 
         Sorteo sorteo = sorteoRepository.findById(dto.getSorteoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Sorteo no encontrado con el id: " + dto.getSorteoId()));
 
 
-        Billete billete = billeteMapper.toEntity(dto, sorteo, cliente);
+        Billete billete = billeteMapper.toEntity(dto, sorteo);
 
         if (!BilleteValidator.isValid(billete)) {
             throw new InvalidBilleteDataException("Los datos del billete no son correctos.");

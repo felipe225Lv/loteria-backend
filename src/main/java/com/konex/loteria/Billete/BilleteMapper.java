@@ -20,16 +20,14 @@ public class BilleteMapper {
      *
      * @param dto objeto con los datos de entrada del billete
      * @param sorteo entidad del sorteo asociada al billete
-     * @param cliente entidad del cliente (puede ser null si no está asignado)
      * @return instancia de {@link Billete} lista para persistir
      */
-    public Billete toEntity(BilleteRequestDTO dto, Sorteo sorteo, Cliente cliente) {
+    public Billete toEntity(BilleteRequestDTO dto, Sorteo sorteo) {
         Billete billete = new Billete();
         billete.setNumero(dto.getNumero());
         billete.setPrecio(dto.getPrecio());
         billete.setEstado(EstadoBillete.valueOf(dto.getEstado()));
         billete.setSorteo(sorteo);
-        billete.setCliente(cliente);
         return billete;
     }
 
