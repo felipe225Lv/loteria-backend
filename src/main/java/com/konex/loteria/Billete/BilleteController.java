@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/loteria/billetes")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class BilleteController {
 
     /** Servicio que contiene la lógica de negocio para la gestión de billetes. */
@@ -86,5 +87,32 @@ public class BilleteController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         billeteService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Obtiene todos los billetes vendidos a un cliente específico.
+     *
+     * @param clienteId identificador del cliente
+     * @return lista de billetes vendidos
+     */
+    @GetMapping("/cliente/{clienteId}/vendidos")
+    public ResponseEntity<List<BilleteResponseDTO>> getBilletesVendidosPorCliente(@PathVariable Long clienteId) {
+        List<BilleteResponseDTO> billetes = billeteService.getBilletesVendidosPorCliente(clienteId);
+        return ResponseEntity.ok(billetes);
+    }
+
+    /**
+     * Marca un billete como vendido, asociándolo a un cliente.
+     *
+     * @param billeteId identificador del billete a vender
+     * @param clienteId identificador del cliente comprador
+     * @return billete actualizado con estado VENDIDO y código HTTP 200 (OK)
+     */
+    @PutMapping("/{billeteId}/vender/{clienteId}")
+    public ResponseEntity<BilleteResponseDTO> venderBillete(
+            @PathVariable Long billeteId,
+            @PathVariable Long clienteId) {
+        BilleteResponseDTO vendido = billeteService.venderBillete(billeteId, clienteId);
+        return ResponseEntity.ok(vendido);
     }
 }

@@ -11,6 +11,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementación del servicio de gestión de clientes.
+ *
+ * Proporciona la lógica de negocio para crear, consultar, actualizar y eliminar clientes.
+ * Integra validaciones, manejo de excepciones y conversión entre entidades y DTOs.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -19,6 +25,9 @@ public class ClienteServiceImpl implements ClienteService {
     private final ClienteRepository clienteRepository;
     private final ClienteMapper clienteMapper;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<ClienteResponseDTO> getClientes() {
@@ -28,6 +37,9 @@ public class ClienteServiceImpl implements ClienteService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public ClienteResponseDTO get(Long id) {
@@ -37,6 +49,9 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteMapper.toResponseDTO(cliente);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public ClienteResponseDTO save(ClienteRequestDTO dto) {
@@ -50,6 +65,9 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteMapper.toResponseDTO(saved);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public ClienteResponseDTO update(Long id, ClienteRequestDTO cliente) {
@@ -67,6 +85,9 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteMapper.toResponseDTO(updated);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void delete(Long id) {

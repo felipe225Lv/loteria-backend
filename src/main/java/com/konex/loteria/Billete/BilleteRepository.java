@@ -15,9 +15,10 @@ public interface BilleteRepository extends JpaRepository<Billete, Long> {
      * Busca todos los billetes asociados a un cliente específico.
      *
      * @param clienteId identificador del cliente
+     * @param estado estado del billete
      * @return lista de billetes comprados por el cliente
      */
-    List<Billete> findByClienteId(Long clienteId);
+    List<Billete> findByClienteIdAndEstado(Long clienteId, EstadoBillete estado);
 
     /**
      * Busca todos los billetes pertenecientes a un sorteo y que tengan un estado específico.
@@ -27,4 +28,5 @@ public interface BilleteRepository extends JpaRepository<Billete, Long> {
      * @return lista de billetes que cumplen las condiciones
      */
     List<Billete> findBySorteoIdAndEstado(Long sorteoId, EstadoBillete estado);
+
 }

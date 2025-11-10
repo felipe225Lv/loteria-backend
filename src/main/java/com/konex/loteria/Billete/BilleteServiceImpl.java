@@ -115,4 +115,36 @@ public class BilleteServiceImpl implements BilleteService {
         }
         billeteRepository.deleteById(id);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public List<BilleteResponseDTO> getBilletesVendidosPorCliente(Long clienteId) {
+        List<Billete> billetes = billeteRepository.findByClienteIdAndEstado(clienteId, EstadoBillete.VENDIDO);
+        return billetes.stream()
+                .map(billeteMapper::toResponseDTO)
+                .toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public BilleteResponseDTO venderBillete(Long billeteId, Long clienteId) {
+        Billete billete = billeteRepository.findById(billeteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Billete no encontrado"));
+
+        if (billete.getEstado() == EstadoBillete.VENDIDO) {
+            throw new IllegalStateException("El billete ya fue vendido");
+        }
+
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
+
+        billete.setCliente(cliente);
+        billete.setEstado(EstadoBillete.VENDIDO);
+
+        Billete actualizado = billeteRepository.save(billete);
+        return billeteMapper.toResponseDTO(actualizado);
+    }
+
 }

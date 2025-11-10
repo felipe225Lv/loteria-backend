@@ -50,4 +50,19 @@ public interface BilleteService {
      * @param id identificador del billete a eliminar
      */
     void delete(Long id);
+
+    /**
+     * Obtiene los billetes de cada cliente.
+     *
+     * @param clienteId identificador del cliente para traer los billetes que tiene
+     */
+    List<BilleteResponseDTO> getBilletesVendidosPorCliente(Long clienteId);
+
+    /**
+     * Vender un billete del sistema
+     *
+     * @param billeteId identificador del billete el cual se va a vender
+     * @param clienteId identificador del cliente que va a comprar el billete
+     */
+    BilleteResponseDTO venderBillete(Long billeteId, Long clienteId);
 }

@@ -12,6 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementación del servicio de gestión de sorteos.
+ *
+ * Proporciona la lógica de negocio para crear, consultar, actualizar y eliminar sorteos.
+ * Integra validaciones, manejo de excepciones y conversión entre entidades y DTOs.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -20,6 +26,9 @@ public class SorteoServiceImpl implements SorteoService{
     private final SorteoRepository sorteoRepository;
     private final SorteoMapper sorteoMapper;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<SorteoResponseDTO> getSorteos() {
@@ -29,6 +38,9 @@ public class SorteoServiceImpl implements SorteoService{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public SorteoResponseDTO get(Long id) {
@@ -38,12 +50,15 @@ public class SorteoServiceImpl implements SorteoService{
         return sorteoMapper.toResponseDTO(sorteo);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public SorteoResponseDTO save(SorteoRequestDTO dto) {
         Sorteo sorteo = sorteoMapper.toEntity(dto);
 
-        if (!SorteoValidator.isValid(sorteo)) {
+        if (SorteoValidator.isValid(sorteo)) {
             throw new InvalidSorteoDataException("Los datos del sorteo no son validos");
         }
 
@@ -51,6 +66,9 @@ public class SorteoServiceImpl implements SorteoService{
         return sorteoMapper.toResponseDTO(saved);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public SorteoResponseDTO update(Long id, SorteoRequestDTO dto) {
@@ -60,7 +78,7 @@ public class SorteoServiceImpl implements SorteoService{
         existente.setNombre(dto.getNombre());
         existente.setFechaSorteo(dto.getFechaSorteo());
 
-        if (!SorteoValidator.isValid(existente)) {
+        if (SorteoValidator.isValid(existente)) {
             throw new InvalidSorteoDataException("Los datos del sorteo no son validos");
         }
 
@@ -68,6 +86,9 @@ public class SorteoServiceImpl implements SorteoService{
         return sorteoMapper.toResponseDTO(updated);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void delete(Long id) {
