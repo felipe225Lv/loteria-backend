@@ -79,9 +79,7 @@ Venta de billete	POST	/api/billetes/vender
 
 (Los endpoints exactos pueden variar según tus controladores.)
 
-## ✅ Licencia
 
-Este proyecto se entrega como parte de una prueba técnica.
 
 
 
